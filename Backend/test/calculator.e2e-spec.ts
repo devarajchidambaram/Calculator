@@ -28,7 +28,10 @@ describe('CalculatorController (e2e)', () => {
       .post('/v1/calculator/add')
       .send({ a: 2, b: 3 })
       .expect(200)
-      .expect(({ body }) => expect(body.result).toBe(5));
+      .expect((res) => {
+        const body: { result: number } = res.body as { result: number };
+        expect(body.result).toBe(5);
+      });
   });
 
   it('/v1/calculator/subtract (POST)', async () => {
@@ -36,7 +39,10 @@ describe('CalculatorController (e2e)', () => {
       .post('/v1/calculator/subtract')
       .send({ a: 5, b: 3 })
       .expect(200)
-      .expect(({ body }) => expect(body.result).toBe(2));
+      .expect((res) => {
+        const body: { result: number } = res.body as { result: number };
+        expect(body.result).toBe(2);
+      });
   });
 
   it('/v1/calculator/multiply (POST)', async () => {
@@ -44,7 +50,10 @@ describe('CalculatorController (e2e)', () => {
       .post('/v1/calculator/multiply')
       .send({ a: 4, b: 3 })
       .expect(200)
-      .expect(({ body }) => expect(body.result).toBe(12));
+      .expect((res) => {
+        const body: { result: number } = res.body as { result: number };
+        expect(body.result).toBe(12);
+      });
   });
 
   it('/v1/calculator/divide (POST)', async () => {
@@ -52,7 +61,10 @@ describe('CalculatorController (e2e)', () => {
       .post('/v1/calculator/divide')
       .send({ a: 10, b: 2 })
       .expect(200)
-      .expect(({ body }) => expect(body.result).toBe(5));
+      .expect((res) => {
+        const body: { result: number } = res.body as { result: number };
+        expect(body.result).toBe(5);
+      });
   });
 
   it('/v1/calculator/divide (POST) - division by zero', async () => {

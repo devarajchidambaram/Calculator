@@ -1,0 +1,130 @@
+{
+  "info": {
+    "name": "Calculator API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "version": "1.0.0",
+    "description": "Postman collection for Calculator API (v1 routes)."
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:3000"
+    }
+  ],
+  "item": [
+    {
+      "name": "Add",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/v1/calculator/add",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "v1",
+            "calculator",
+            "add"
+          ]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"a\": 12.5,\n  \"b\": 3.5\n}"
+        },
+        "description": "Adds two numbers. Returns { result: number }."
+      }
+    },
+    {
+      "name": "Subtract",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/v1/calculator/subtract",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "v1",
+            "calculator",
+            "subtract"
+          ]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"a\": 12.5,\n  \"b\": 3.5\n}"
+        },
+        "description": "Subtracts b from a. Returns { result: number }."
+      }
+    },
+    {
+      "name": "Multiply",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/v1/calculator/multiply",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "v1",
+            "calculator",
+            "multiply"
+          ]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"a\": 12.5,\n  \"b\": 3.5\n}"
+        },
+        "description": "Multiplies two numbers. Returns { result: number }."
+      }
+    },
+    {
+      "name": "Divide",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/v1/calculator/divide",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "v1",
+            "calculator",
+            "divide"
+          ]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"a\": 12.5,\n  \"b\": 3.5\n}"
+        },
+        "description": "Divides a by b. Returns { result: number }. Note: b must not be zero."
+      }
+    }
+  ]
+}
+
+

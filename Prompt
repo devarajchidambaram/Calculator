@@ -1,0 +1,45 @@
+You are an expert Node.js and NestJS developer. I want to **create a Calculator REST API** in **Node.js using the NestJS framework** inside a folder called `@backend`. Please provide a detailed step-by-step guide including:
+
+1. **Project Setup**
+   - Commands to create a new NestJS project in the `@backend` folder.
+   - Install all necessary dependencies.
+
+2. **Folder Structure**
+   - Recommended folder and file structure for the project.
+   - Where to place controllers, services, modules, and DTOs.
+
+3. **API Design**
+   - Endpoints for basic calculator operations:
+     - `POST /add` – Add two numbers.
+     - `POST /subtract` – Subtract two numbers.
+     - `POST /multiply` – Multiply two numbers.
+     - `POST /divide` – Divide two numbers.
+   - Request and response formats for each endpoint (JSON structure).
+
+4. **Implementation**
+   - Create **CalculatorModule**, **CalculatorController**, and **CalculatorService** with detailed code snippets.
+   - Include **input validation** (e.g., division by zero, numeric validation).
+   - Use DTOs (Data Transfer Objects) for request bodies.
+
+5. **Testing**
+   - Add **unit tests** for the service methods.
+   - Add **integration tests** for the API endpoints using **Jest** or **Supertest**.
+
+6. **Run & Test**
+   - Commands to run the application locally.
+   - Example **curl** or **Postman** requests to test each endpoint.
+
+7. **Optional Enhancements**
+   - Error handling with **exception filters**.
+   - Logging of requests and responses.
+   - Versioning the API (`/v1/add`, etc.).
+
+8. **Documentation**
+   - Optional Swagger setup for API documentation.
+
+---
+
+**Constraints:**
+- Keep the code **clean and modular** following NestJS best practices.
+- Use **TypeScript** only.
+- Make all examples **copy-paste ready** for quick execution.

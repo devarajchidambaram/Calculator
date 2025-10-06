@@ -18,5 +18,20 @@ jobs:
       - name: Start project with Docker Compose
         run: |
           cd ./   # Path to your docker-compose.yml
-          docker-compose down
-          docker-compose up -d
+          echo "Git commit: $(git rev-parse --short HEAD)"
+          docker-compose version
+          echo "Stopping stack..."
+          docker-compose down || true
+          echo "Rebuilding images without cache..."
+          docker-compose build --no-cache --pull
+          echo "Starting stack..."
+          docker-compose up -d --force-recreate
+          echo "Images used by running containers:"
+          docker ps --format 'table {{.Names}}\t{{.Image}}\t{{.ID}}\t{{.Status}}'
+          echo "Local images for context:"
+          docker images
+
+      - name: Show container logs (brief)
+        run: |
+          docker-compose ps
+          docker-compose logs -t --tail=50

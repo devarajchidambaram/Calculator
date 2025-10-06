@@ -1,37 +1,45 @@
-name: Local Deploy Node.js Project
+name: Deploy Node.js Project with Docker Compose
 
+# Trigger the workflow on push to main branch (change branch if needed)
 on:
   push:
     branches:
-      - main   # Change to your branch
+      - main
 
 jobs:
   deploy:
     runs-on: self-hosted
     steps:
+      # 1. Checkout the repository
       - name: Checkout repository
         uses: actions/checkout@v3
 
-      - name: Set up Docker (Optional if already installed)
+      # 2. Optional: Set up Docker Buildx (if using advanced Docker builds)
+      - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v2
 
-      - name: Start project with Docker Compose
-        run: |
-          cd ./   # Path to your docker-compose.yml
-          echo "Git commit: $(git rev-parse --short HEAD)"
-          docker-compose version
-          echo "Stopping stack..."
-          docker-compose down || true
-          echo "Rebuilding images without cache..."
-          docker-compose build --no-cache --pull
-          echo "Starting stack..."
-          docker-compose up -d --force-recreate
-          echo "Images used by running containers:"
-          docker ps --format 'table {{.Names}}\t{{.Image}}\t{{.ID}}\t{{.Status}}'
-          echo "Local images for context:"
-          docker images
+      # 3. Log in to Docker Hub (optional, if pulling private images)
+      # - name: Log in to Docker Hub
+      #   uses: docker/login-action@v2
+      #   with:
+      #     username: ${{ secrets.DOCKER_USERNAME }}
+      #     password: ${{ secrets.DOCKER_PASSWORD }}
 
-      - name: Show container logs (brief)
+      # 4. Deploy latest code using Docker Compose
+      - name: Deploy latest code
         run: |
-          docker-compose ps
-          docker-compose logs -t --tail=50
+          cd ./  # path to your docker-compose.yml
+          echo "Stopping old containers..."
+          docker-compose down
+          echo "Building and starting containers with latest code..."
+          docker-compose up -d --build
+
+      # 5. Optional: Wait for services to be ready
+      - name: Wait for services
+        run: |
+          timeout /t 10  # Wait 10 seconds (Windows)
+          echo "Services should be up now."
+
+      # 6. Optional: Check running containers
+      - name: List running containers
+        run: docker ps

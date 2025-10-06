@@ -15,7 +15,6 @@ COPY src ./src
 # Build to dist/
 RUN npm run build
 
-
 FROM node:20-alpine AS runner
 WORKDIR /app
 ENV NODE_ENV=production

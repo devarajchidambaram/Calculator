@@ -1,33 +1,22 @@
-name: Self-Hosted Smoke Test
+name: Local Deploy Node.js Project
 
 on:
-  workflow_dispatch:
+  push:
+    branches:
+      - main   # Change to your branch
 
 jobs:
-  smoke:
+  deploy:
     runs-on: self-hosted
-    defaults:
-      run:
-        shell: bash
     steps:
-      - name: Print hello
-        run: echo "Hello from self-hosted runner!"
+      - name: Checkout repository
+        uses: actions/checkout@v3
 
-      - name: Show runner info
+      - name: Set up Docker (Optional if already installed)
+        uses: docker/setup-buildx-action@v2
+
+      - name: Start project with Docker Compose
         run: |
-          uname -a || ver
-          whoami || echo "whoami not available"
-          pwd
-
-      - name: Create a test file in workspace
-        run: |
-          echo "$(date) - smoke test" > SMOKE_TEST_OK.txt
-          ls -la
-
-      - name: Upload artifact
-        uses: actions/upload-artifact@v4
-        with:
-          name: smoke-artifacts
-          path: SMOKE_TEST_OK.txt
-
-
+          cd ./   # Path to your docker-compose.yml
+          docker-compose down
+          docker-compose up -d

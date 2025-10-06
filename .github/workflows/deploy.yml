@@ -1,60 +1,33 @@
-name: Deploy (Self-Hosted)
+name: Self-Hosted Smoke Test
 
 on:
-  workflow_run:
-    workflows: [ CI ]
-    types: [ completed ]
   workflow_dispatch:
 
 jobs:
-  deploy:
-    # Target your Actions Runner installed on this machine
+  smoke:
     runs-on: self-hosted
     defaults:
       run:
         shell: bash
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
+      - name: Print hello
+        run: echo "Hello from self-hosted runner!"
 
-      - name: Stop if CI failed
-        if: ${{ github.event_name == 'workflow_run' && github.event.workflow_run.conclusion != 'success' }}
+      - name: Show runner info
         run: |
-          echo "CI did not succeed (status: ${CI_STATUS}). Skipping deploy."
-        env:
-          CI_STATUS: ${{ github.event.workflow_run.conclusion }}
+          uname -a || ver
+          whoami || echo "whoami not available"
+          pwd
 
-      - name: Set up Docker Buildx (optional)
-        uses: docker/setup-buildx-action@v3
-
-
-      - name: Docker versions
+      - name: Create a test file in workspace
         run: |
-          docker version
-          docker compose version || docker-compose version
+          echo "$(date) - smoke test" > SMOKE_TEST_OK.txt
+          ls -la
 
-      - name: Build and start with Docker Compose
-        working-directory: .
-        run: |
-          set -e
-          # Try new v2 CLI first, then fallback to docker-compose
-          docker compose down || docker-compose down || true
-          docker compose build --no-cache || docker-compose build --no-cache
-          docker compose up -d --force-recreate || docker-compose up -d --force-recreate
-
-      - name: Verify service health
-        run: |
-          echo "Waiting for API to be healthy..."
-          for i in {1..30}; do
-            if curl -fsS http://localhost:3000/health || curl -fsS http://localhost:3000; then
-              echo "Service is up"; exit 0; fi; sleep 2; done
-          echo "Service failed to respond in time"; exit 1
-
-      - name: Show container logs on failure
-        if: failure()
-        run: |
-          echo "Showing recent container logs..."
-          docker ps --format "table {{.ID}}\t{{.Names}}\t{{.Status}}\t{{.Ports}}"
-          docker compose logs --tail=200 || docker-compose logs --tail=200
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: smoke-artifacts
+          path: SMOKE_TEST_OK.txt
 
 
